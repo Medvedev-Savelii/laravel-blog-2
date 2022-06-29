@@ -61,10 +61,13 @@ class CategoryController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(StoreCategory $request, $id)
     {
+        $category = Category::find($id);
+        $category->update($request->all());
+        return redirect()->route('categories.index')->with('success', 'Изменения сохранены');
 
     }
 
@@ -72,10 +75,13 @@ class CategoryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        dd(__METHOD__);
+        $category = Category::find($id);
+        $category->delete();
+        return redirect()->route('categories.index')->with('success', 'Категория удалена');
+
     }
 }
